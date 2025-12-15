@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsureSync - Dashboard</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body style="min-height: 100vh; margin: 0; font-family: Arial, sans-serif;">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+        <div style="text-align: center;">
+            <div class="spinner" style="width: 40px; height: 40px; margin: 0 auto 20px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            <h3>Loading Dashboard...</h3>
+            <p>Please wait while we prepare your dashboard</p>
+        </div>
+    </div>
+    
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <div>
+                        <h1>InsureSync</h1>
+                        <small>Data Interchange System</small>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="connection-status">
+                        <span class="status-indicator online"></span>
+                        <span>Online</span>
+                    </div>
+                    <div class="user-info">
+                        <span id="userName">Loading...</span>
+                        <span id="userRole" class="user-role">Loading...</span>
+                    </div>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <ul class="nav-menu" id="navMenu">
+                    <!-- Navigation will be populated by JavaScript based on user role -->
+                </ul>
+                
+                <div class="system-status">
+                    <div class="status-card">
+                        <div class="status-indicator online"></div>
+                        <span>System Operational</span>
+                        <small>Last sync: Today </small>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Content Area -->
+            <main class="content" id="mainContent">
+                <!-- Dashboard Content -->
+                <div id="dashboardContent" class="page-content">
+                    <div class="page-header">
+                        <h2 id="greeting">Good morning, User</h2>
+                        <p>Welcome to your InsureSync dashboard. Here's what's happening today.</p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card blue">
+                            <div class="stat-icon">📄</div>
+                            <div class="stat-info">
+                                <h3 id="totalClaims">0</h3>
+                                <p>Total Claims</p>
+                                <small>All-time claims</small>
+                            </div>
+                        </div>
+                        <div class="stat-card green">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-info">
+                                <h3 id="activeClaims">0</h3>
+                                <p>Active Claims</p>
+                                <small>In progress</small>
+                            </div>
+                        </div>
+                        <div class="stat-card orange">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-info">
+                                <h3 id="processedClaims">0</h3>
+                                <p>Processed</p>
+                                <small>Completed claims</small>
+                            </div>
+                        </div>
+                        <div class="stat-card purple">
+                            <div class="stat-icon">🏢</div>
+                            <div class="stat-info">
+                                <h3 id="totalCompanies">0</h3>
+                                <p>Partner Companies</p>
+                                <small>Active partners</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Recent Activity</h3>
+                            </div>
+                            <div class="card-content">
+                                <div id="recentActivity">
+                                    <div class="activity-item">
+                                        <div class="activity-icon red">⚠️</div>
+                                        <div class="activity-details">
+                                            <strong>Fraud Alert Triggered</strong>
+                                            <p>Suspicious pattern detected in claim CLM-2024-002</p>
+                                            <small>15 minutes ago by System</small>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon blue">📄</div>
+                                        <div class="activity-details">
+                                            <strong>New Claim Submitted</strong>
+                                            <p>Auto insurance claim CLM-2024-003 submitted by John Chibadura</p>
+                                            <small>2 hours ago by John Chibadura</small>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon green">🔄</div>
+                                        <div class="activity-details">
+                                            <strong>Data Interchange Request</strong>
+                                            <p>Claim data shared with SafeGuard Insurance</p>
+                                            <small>4 hours ago by Chambwido</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>System Health</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="health-metrics">
+                                    <div class="health-item">
+                                        <div class="health-indicator green"></div>
+                                        <div class="health-details">
+                                            <strong>API Services</strong>
+                                            <span>99.9% - All endpoints responding normally</span>
+                                        </div>
+                                    </div>
+                                    <div class="health-item">
+                                        <div class="health-indicator green"></div>
+                                        <div class="health-details">
+                                            <strong>Database</strong>
+                                            <span>2.3ms - Average query response time</span>
+                                        </div>
+                                    </div>
+                                    <div class="health-item">
+                                        <div class="health-indicator yellow"></div>
+                                        <div class="health-details">
+                                            <strong>Sync Queue</strong>
+                                            <span>12 items - Items pending synchronization</span>
+                                        </div>
+                                    </div>
+                                    <div class="health-item">
+                                        <div class="health-indicator green"></div>
+                                        <div class="health-details">
+                                            <strong>Security</strong>
+                                            <span>0 threats - No security incidents detected</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="quick-actions">
+                                <button onclick="showPage('claims')" class="action-btn blue">
+                                    <span class="action-icon">📄</span>
+                                    <div>
+                                        <strong>New Claim</strong>
+                                        <small>Submit a new insurance claim</small>
+                                    </div>
+                                </button>
+                                <button onclick="showPage('interchange')" class="action-btn green">
+                                    <span class="action-icon">🔄</span>
+                                    <div>
+                                        <strong>Share Data</strong>
+                                        <small>Request data interchange</small>
+                                    </div>
+                                </button>
+                                <button onclick="showPage('fraud')" class="action-btn red">
+                                    <span class="action-icon">⚠️</span>
+                                    <div>
+                                        <strong>Review Flags</strong>
+                                        <small>Check fraud detection alerts</small>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Claims Content -->
+                <div id="claimsContent" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h2>Claims Management</h2>
+                        <p>Manage and track insurance claims across your organization</p>
+                        <button onclick="showNewClaimForm()" class="primary-btn">+ New Claim</button>
+                    </div>
+
+                    <!-- Claims Filters -->
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="filters">
+                                <input type="text" id="claimSearch" placeholder="Search claims..." onkeyup="filterClaims()">
+                                <select id="statusFilter" onchange="filterClaims()">
+                                    <option value="">All Status</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="investigating">Investigating</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="denied">Denied</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Claims Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Claims (<span id="claimsCount">0</span>)</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Claim Details</th>
+                                            <th>Claimant</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="claimsTableBody">
+                                        <!-- Claims will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Interchange Content -->
+                <div id="interchangeContent" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h2>Data Interchange</h2>
+                        <p>Secure data sharing and interchange between insurance companies</p>
+                        <div class="header-actions">
+                            <button onclick="downloadAllClaims()" class="secondary-btn">📥 Download All Claims</button>
+                        </div>
+                    </div>
+
+                    <!-- Interchange Statistics -->
+                    <div class="stats-grid">
+                        <div class="stat-card blue">
+                            <div class="stat-icon">🔄</div>
+                            <div class="stat-info">
+                                <h3 id="interchangeClaimsCount">0</h3>
+                                <p>Available Claims</p>
+                                <small>Across all companies</small>
+                            </div>
+                        </div>
+                        <div class="stat-card green">
+                            <div class="stat-icon">🏢</div>
+                            <div class="stat-info">
+                                <h3 id="participatingCompanies">0</h3>
+                                <p>Companies</p>
+                                <small>Participating in interchange</small>
+                            </div>
+                        </div>
+                        <div class="stat-card purple">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-info">
+                                <h3 id="dataRequests">0</h3>
+                                <p>Data Requests</p>
+                                <small>This month</small>
+                            </div>
+                        </div>
+                        <div class="stat-card red">
+                            <div class="stat-icon">🔒</div>
+                            <div class="stat-info">
+                                <h3>100%</h3>
+                                <p>Secure</p>
+                                <small>End-to-end encryption</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interchange Filters -->
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="filters">
+                                <input type="text" id="interchangeSearch" placeholder="Search claims..." onkeyup="filterInterchangeClaims()">
+                                <select id="companyFilter" onchange="filterInterchangeClaims()">
+                                    <option value="">All Companies</option>
+                                </select>
+                                <select id="interchangeStatusFilter" onchange="filterInterchangeClaims()">
+                                    <option value="">All Status</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="investigating">Investigating</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="denied">Denied</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Claims by Company -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Claims by Company</h3>
+                        </div>
+                        <div class="card-content">
+                            <div id="interchangeClaimsList">
+                                <!-- Claims will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Companies Content -->
+                <div id="companiesContent" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h2>Company Management</h2>
+                        <p>Manage insurance companies and their users</p>
+                        <div class="header-actions">
+                            <button onclick="showNewUserForm()" class="secondary-btn">+ New User</button>
+                            <button onclick="showNewCompanyForm()" class="primary-btn">+ New Company</button>
+                        </div>
+                    </div>
+
+                    <!-- Company Tabs -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="tabs">
+                                <button class="tab-btn active" onclick="switchTab('companies')">Companies</button>
+                                <button class="tab-btn" onclick="switchTab('users')">Users</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="companiesTab" class="tab-content">
+                                <div id="companiesList">
+                                    <!-- Companies will be populated here -->
+                                </div>
+                            </div>
+                            <div id="usersTab" class="tab-content" style="display: none;">
+                                <div id="usersList">
+                                    <!-- Users will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fraud Detection Content -->
+                <div id="fraudContent" class="page-content" style="display: none;">
+                    <div class="page-header">
+                            <div class="header-content">
+                                <div>
+                                    <h2>Fraud Detection</h2>
+                                    <p>AI-powered fraud detection and pattern analysis system</p>
+                                </div>
+                            </div>
+                    </div>
+                    
+                    <!-- Fraud Detection Results -->
+                    <div id="fraudDetectionResults" style="display: none; margin-bottom: 20px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Fraud Detection Progress</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-container">
+                                    <div id="detectionProgress" class="progress-bar" style="width: 0%;">0%</div>
+                                </div>
+                                <div id="detectionResults" class="detection-results"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fraud Statistics -->
+                    <div class="stats-grid">
+                        <div class="stat-card red">
+                            <div class="stat-icon">🚨</div>
+                            <div class="stat-info">
+                                <h3 id="criticalFlags">0</h3>
+                                <p>Critical Flags</p>
+                                <small>Require immediate attention</small>
+                            </div>
+                        </div>
+                        <div class="stat-card purple">
+                            <div class="stat-icon">⚠️</div>
+                            <div class="stat-info">
+                                <h3 id="totalFraudFlags">0</h3>
+                                <p>Total Flags</p>
+                                <small>All severity levels</small>
+                            </div>
+                        </div>
+                        <div class="stat-card green">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-info">
+                                <h3 id="reviewedFlags">0</h3>
+                                <p>Reviewed</p>
+                                <small>Flags processed today</small>
+                            </div>
+                        </div>
+                        <div class="stat-card blue">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-info">
+                                <h3>94%</h3>
+                                <p>Accuracy Rate</p>
+                                <small>AI detection accuracy</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fraud Filters -->
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="filters">
+                                <select id="severityFilter" onchange="filterFraudFlags()">
+                                    <option value="">All Severity</option>
+                                    <option value="critical">Critical</option>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                                <select id="fraudStatusFilter" onchange="filterFraudFlags()">
+                                    <option value="">All Status</option>
+                                    <option value="pending">Pending Review</option>
+                                    <option value="reviewed">Reviewed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fraud Flags List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Fraud Flags (<span id="fraudFlagsCount">0</span>)</h3>
+                        </div>
+                        <div class="card-content">
+                            <div id="fraudFlagsList">
+                                <!-- Fraud flags will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audit Logs Content -->
+                <div id="auditContent" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h2>Audit Trail</h2>
+                        <p>Complete audit trail of all system activities and user actions</p>
+                    </div>
+
+                    <!-- Audit Statistics -->
+                    <div class="stats-grid">
+                        <div class="stat-card blue">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-info">
+                                <h3 id="totalAuditLogs">0</h3>
+                                <p>Total Logs</p>
+                                <small>All recorded activities</small>
+                            </div>
+                        </div>
+                        <div class="stat-card green">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <h3 id="activeUsers">0</h3>
+                                <p>Active Users</p>
+                                <small>Users with recent activity</small>
+                            </div>
+                        </div>
+                        <div class="stat-card purple">
+                            <div class="stat-icon">🔍</div>
+                            <div class="stat-info">
+                                <h3 id="todayActivities">0</h3>
+                                <p>Today's Activities</p>
+                                <small>Actions performed today</small>
+                            </div>
+                        </div>
+                        <div class="stat-card red">
+                            <div class="stat-icon">🛡️</div>
+                            <div class="stat-info">
+                                <h3>100%</h3>
+                                <p>Compliance</p>
+                                <small>Full audit coverage</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audit Filters -->
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="filters">
+                                <input type="text" id="userFilter" placeholder="Filter by user..." onkeyup="filterAuditLogs()">
+                                <select id="actionFilter" onchange="filterAuditLogs()">
+                                    <option value="">All Actions</option>
+                                    <option value="create">Create</option>
+                                    <option value="update">Update</option>
+                                    <option value="delete">Delete</option>
+                                    <option value="view">View</option>
+                                    <option value="login">Login</option>
+                                </select>
+                                <select id="resourceFilter" onchange="filterAuditLogs()">
+                                    <option value="">All Resources</option>
+                                    <option value="claim">Claims</option>
+                                    <option value="user">Users</option>
+                                    <option value="company">Companies</option>
+                                    <option value="fraud_flag">Fraud Flags</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audit Logs List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Audit Logs (<span id="auditLogsCount">0</span>)</h3>
+                        </div>
+                        <div class="card-content">
+                            <div id="auditLogsList">
+                                <!-- Audit logs will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="newClaimModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Submit New Claim</h3>
+                <button onclick="closeModal('newClaimModal')" class="close-btn">&times;</button>
+            </div>
+            <form id="newClaimForm" class="modal-form">
+                <div id="formErrorContainer" class="alert alert-danger" style="display: none;"></div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="policyNumber" class="required-field">Policy Number</label>
+                        <input type="text" id="policyNumber" name="policy_number" required 
+                               placeholder="AB1234567" 
+                               title="Enter 2 letters followed by 7 numbers"
+                               pattern="[A-Za-z]{2}\d{7}"
+                               maxlength="9"
+                               oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g, '').slice(0, 9); formatPolicyNumber(this);"
+                               class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="claimType" class="required-field">Claim Type</label>
+                        <select id="claimType" name="claim_type" required class="form-control">
+                            <option value="">Select type...</option>
+                            <option value="auto">Auto</option>
+                            <option value="property">Property</option>
+                            <option value="health">Health</option>
+                            <option value="life">Life</option>
+                            <option value="liability">Liability</option>
+                        </select>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="claimantName" class="required-field">Claimant Name</label>
+                        <input type="text" id="claimantName" name="claimant_name" required 
+                               placeholder="John Gonzo" class="form-control"
+                               pattern="[A-Za-z\s\-']{2,50}"
+                               title="Please enter a valid name (letters, spaces, hyphens, and apostrophes only, 2-50 characters)"
+                               oninput="this.value = this.value.replace(/[^A-Za-z\s\-']/g, '');">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="claimantEmail" class="required-field">Email</label>
+                        <input type="email" id="claimantEmail" name="claimant_email" required
+                               placeholder="example@domain.com" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="claimantPhone" class="required-field">Phone</label>
+                        <input type="tel" id="claimantPhone" name="claimant_phone" required
+                               placeholder="1234567890" pattern="\d{10}" 
+                               maxlength="10"
+                               oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10);"
+                               onblur="this.value = this.value.replace(/\D/g, '').slice(0, 10);"
+                               title="10-digit phone number (digits only)" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="incidentDate" class="required-field">Incident Date</label>
+                        <input type="date" id="incidentDate" name="incident_date" required
+                               max="" class="form-control" onfocus="setMaxDate(this)">
+                        <script>
+                            // Set max date to today for incident date
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const today = new Date().toISOString().split('T')[0];
+                                document.getElementById('incidentDate').max = today;
+                                // Removed max date restriction for reported date to allow future dates
+                            });
+                            
+                            // Function to set max date when field receives focus (only for incident date)
+                            function setMaxDate(input) {
+                                if (input.id === 'incidentDate') {
+                                    // Update max date in case the page was left open overnight
+                                    const today = new Date().toISOString().split('T')[0];
+                                    input.max = today;
+                                    
+                                    // If the current value is in the future, reset it (only for incident date)
+                                    if (input.value && input.value > today) {
+                                        input.value = today;
+                                    }
+                                }
+                            }
+                        </script>
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportedDate" class="required-field">Reported Date</label>
+                        <input type="date" id="reportedDate" name="reported_date" required
+                               class="form-control" onfocus="validateReportedDate()"
+                               onchange="validateReportedDate()">
+                               
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                // Remove any max date restriction from reported date
+                                const reportedDateInput = document.getElementById('reportedDate');
+                                if (reportedDateInput) {
+                                    reportedDateInput.removeAttribute('max');
+                                }
+                                
+                                // Set initial reported date to today
+                                const today = new Date().toISOString().split('T')[0];
+                                if (reportedDateInput && !reportedDateInput.value) {
+                                    reportedDateInput.value = today;
+                                }
+                            });
+                            
+                            function validateReportedDate() {
+                                const incidentDate = document.getElementById('incidentDate');
+                                const reportedDate = document.getElementById('reportedDate');
+                                
+                                // Clear any previous validation
+                                reportedDate.setCustomValidity('');
+
+                                // Only validate if both dates are filled
+                                if (incidentDate.value && reportedDate.value) {
+                                    if (new Date(reportedDate.value) < new Date(incidentDate.value)) {
+                                        reportedDate.setCustomValidity('Reported date cannot be before incident date');
+                                        reportedDate.reportValidity();
+                                        return false;
+                                    } else {
+                                        reportedDate.setCustomValidity('');
+                                    }
+                                }
+                                return true;
+                            }
+                            
+                            // Also validate when incident date changes
+                            document.getElementById('incidentDate').addEventListener('change', function() {
+                                validateReportedDate();
+                            });
+                        </script>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="estimatedAmount" class="required-field">Estimated Amount ($)</label>
+                    <input type="number" id="estimatedAmount" name="estimated_amount" 
+                           min="0.01" step="0.01" required placeholder="0.00"
+                           oninput="this.value = this.value.match(/^\d*\.?\d{0,2}/)[0]"
+                           onkeydown="return event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Tab' || 
+                                     (event.key >= '0' && event.key <= '9') || 
+                                     (event.key === '.' && this.value.indexOf('.') === -1);"
+                           class="form-control">
+                    <div class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description" class="required-field">Description</label>
+                    <textarea id="description" name="description" rows="4" required
+                              placeholder="Please provide a detailed description of the incident (minimum 10 characters)"
+                              class="form-control"></textarea>
+                    <div class="error-message"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="primary-btn">Submit Claim</button>
+                    <button type="button" onclick="closeModal('newClaimModal')" class="secondary-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Company Modal -->
+    <div id="editCompanyModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Company</h3>
+                <button onclick="closeModal('editCompanyModal')" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editCompanyForm" onsubmit="handleEditCompany(event)">
+                    <input type="hidden" id="editCompanyId">
+                    <div class="form-group">
+                        <label for="editCompanyName" class="required-field">Company Name</label>
+                        <input type="text" id="editCompanyName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLicenseNumber" class="required-field">License Number</label>
+                        <input type="text" id="editLicenseNumber" name="license_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editContactEmail">Contact Email</label>
+                        <input type="email" id="editContactEmail" name="contact_email">
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="editIsActive" name="is_active" checked>
+                        <label for="editIsActive">Active</label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeModal('editCompanyModal')">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Company Modal -->
+    <div id="newCompanyModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Company</h3>
+                <button onclick="closeModal('newCompanyModal')" class="close-btn">&times;</button>
+            </div>
+            <form id="newCompanyForm" class="modal-form">
+                <div id="formErrorContainer" class="alert alert-danger" style="display: none;"></div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="companyName" class="required-field">Company Name</label>
+                        <input type="text" id="companyName" name="name" required
+                               pattern="[A-Za-z\s]+" 
+                               title="Please enter letters only (no numbers or special characters)"
+                               class="form-control"
+                               oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="licenseNumber" class="required-field">License Number</label>
+                        <input type="text" id="licenseNumber" name="license_number" required
+                               pattern="[A-Za-z0-9-]+"
+                               title="Alphanumeric characters and hyphens only"
+                               class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="companyAddress" class="required-field">Address</label>
+                    <textarea id="companyAddress" name="address" rows="2" required
+                              class="form-control"
+                              minlength="10"
+                              title="Please enter a valid address"></textarea>
+                    <div class="error-message"></div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contactEmail" class="required-field">Contact Email</label>
+                        <input type="email" id="contactEmail" name="contact_email" required
+                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                               title="Please enter a valid email address (e.g., contact@company.com)"
+                               class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone" class="required-field">Contact Phone</label>
+                        <input type="tel" id="contactPhone" name="contact_phone" required
+                               placeholder="1234567890" pattern="\d{10}" 
+                               maxlength="10"
+                               oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10);"
+                               title="10-digit phone number" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="companyWebsite">Website</label>
+                    <input type="url" id="companyWebsite" name="website" 
+                           pattern="https?://.+" 
+                           title="Include http:// or https://"
+                           placeholder="https://example.com"
+                           class="form-control">
+                    <div class="error-message"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="primary-btn">Add Company</button>
+                    <button type="button" onclick="closeModal('newCompanyModal')" class="secondary-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit User</h3>
+                <button onclick="closeModal('editUserModal')" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm" onsubmit="handleEditUser(event)">
+                    <input type="hidden" id="editUserId">
+                    <div class="form-group">
+                        <label for="editUserName" class="required-field">Full Name</label>
+                        <input type="text" id="editUserName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editUserEmail" class="required-field">Email</label>
+                        <input type="email" id="editUserEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editUserRole" class="required-field">Role</label>
+                        <select id="editUserRole" name="role" required>
+                            <option value="admin">Administrator</option>
+                            <option value="user">Standard User</option>
+                            <option value="auditor">Auditor</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="editUserCompanyGroup" style="display: none;">
+                        <label for="editUserCompany">Company</label>
+                        <select id="editUserCompany" name="company_id">
+                            <!-- Will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editUserPassword">New Password (leave blank to keep current)</label>
+                        <input type="password" id="editUserPassword" name="password">
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="editUserIsActive" name="is_active" checked>
+                        <label for="editUserIsActive">Active</label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeModal('editUserModal')">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New User Modal -->
+    <div id="newUserModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New User</h3>
+                <button onclick="closeModal('newUserModal')" class="close-btn">&times;</button>
+            </div>
+            <form id="newUserForm" class="modal-form">
+                <div id="formErrorContainer" class="alert alert-danger" style="display: none;"></div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userName" class="required-field">Full Name</label>
+                        <input type="text" id="userName" name="name" required 
+                               pattern="[A-Za-z\s]+" 
+                               title="Please enter letters only (no numbers or special characters)"
+                               class="form-control"
+                               oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail" class="required-field">Email</label>
+                        <input type="email" id="userEmail" name="email" required
+                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                               title="Please enter a valid email address (e.g., example@domain.com)"
+                               class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userPhone" class="required-field">Phone</label>
+                        <input type="tel" id="userPhone" name="phone" required
+                               placeholder="1234567890" pattern="\d{10}" 
+                               maxlength="10"
+                               oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10);"
+                               title="10-digit phone number" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword" class="required-field">Temporary Password</label>
+                        <input type="password" id="userPassword" name="password" required
+                               minlength="8"
+                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                               title="Must contain at least one number, one uppercase and lowercase letter, and be at least 8 characters long"
+                               class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userRole" class="required-field">Role</label>
+                        <select id="userRole" name="role" required class="form-control">
+                            <option value="">Select role...</option>
+                            <option value="admin">Admin</option>
+                            <option value="company_user">Company User</option>
+                            <option value="auditor">Auditor</option>
+                        </select>
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userCompany" class="required-field">Company</label>
+                        <select id="userCompany" name="company_id" required class="form-control">
+                            <option value="">Select company...</option>
+                        </select>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="primary-btn">Add User</button>
+                    <button type="button" onclick="closeModal('newUserModal')" class="secondary-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Data Interchange Request Modal -->
+    <div id="interchangeRequestModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Request Data Access</h3>
+                <button onclick="closeModal('interchangeRequestModal')" class="close-btn">&times;</button>
+            </div>
+            <form id="interchangeRequestForm" class="modal-form">
+                <div class="form-group">
+                    <label for="requestCompany">Company</label>
+                    <input type="text" id="requestCompany" name="to_company" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="requestType">Request Type</label>
+                    <select id="requestType" name="request_type" required>
+                        <option value="">Select type...</option>
+                        <option value="view">View Claims</option>
+                        <option value="share">Share Data</option>
+                        <option value="verify">Verify Information</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="purpose">Purpose</label>
+                    <input type="text" id="purpose" name="purpose" placeholder="e.g., Fraud investigation, Claims verification" required>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Any additional information or specific requirements"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="primary-btn">Submit Request</button>
+                    <button type="button" onclick="closeModal('interchangeRequestModal')" class="secondary-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Company Claims Modal -->
+    <div id="companyClaimsModal" class="modal" style="display: none;">
+        <div class="modal-content" id="companyClaimsModalContent">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Load scripts with proper execution order -->
+    <script src="assets/js/init.js" defer></script>
+    <script src="assets/js/dashboard.js" defer></script>
+</body>
+</html>

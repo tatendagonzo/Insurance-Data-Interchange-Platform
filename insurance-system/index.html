@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsureSync - Login</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h1>InsureSync</h1>
+                <p>Secure Insurance Data Interchange Platform</p>
+            </div>
+
+            <div class="demo-accounts" id="demoAccounts">
+                <h3>Demo Accounts</h3>
+                <div class="demo-list">
+                    <div class="demo-item" onclick="fillDemo('admin@insuresync.com', 'demo123')">
+                        <strong>System Admin</strong>
+                        <small>admin@insuresync.com</small>
+                    </div>
+                    <div class="demo-item" onclick="fillDemo('manager@acmeinsurance.com', 'demo123')">
+                        <strong>Company User</strong>
+                        <small>manager@acmeinsurance.com</small>
+                    </div>
+                    <div class="demo-item" onclick="fillDemo('auditor@compliance.gov', 'demo123')">
+                        <strong>Auditor</strong>
+                        <small>auditor@compliance.gov</small>
+                    </div>
+                </div>
+                <button type="button" onclick="hideDemoAccounts()">Hide demo accounts</button>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div class="error-message" id="errorMessage" style="display: none;"></div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="password" name="password" required>
+                        <button type="button" onclick="togglePassword()" class="password-toggle">👁️</button>
+                    </div>
+                </div>
+
+<button type="submit" class="login-btn" id="loginBtn">
+                    <span id="loginText">Sign In</span>
+                    <span id="loginLoader" style="display: none;">Signing in...</span>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p>© 2025 InsureSync.(DIP) TATENDA GONZO R227786Y.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/login.js"></script>
+</body>
+</html>

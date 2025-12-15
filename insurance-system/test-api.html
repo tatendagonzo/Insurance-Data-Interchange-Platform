@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <script>
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const twoFactor = document.getElementById('twoFactor').value;
+
+            try {
+                const response = await fetch('http://localhost/insurance-system/backend/api/auth.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'login',
+                        email: email,
+                        password: password,
+                        twoFactorCode: twoFactor || null
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Response:', data);
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+                
+                if (data.success) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    console.log('User stored in localStorage');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Test Login API</h1>
+    <div>
+        <label>Email: <input type="email" id="email" value="admin@insuresync.com"></label><br>
+        <label>Password: <input type="password" id="password" value="demo123"></label><br>
+        <label>2FA Code: <input type="text" id="twoFactor" value="123456"></label><br>
+        <button onclick="testLogin()">Test Login</button>
+    </div>
+    <pre id="result" style="background: #f4f4f4; padding: 10px; border: 1px solid #ddd;">Response will appear here</pre>
+</body>
+</html>
